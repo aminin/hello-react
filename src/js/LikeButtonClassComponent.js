@@ -2,13 +2,21 @@ import React from 'react';
 
 // Если кликнуть по кнопке, то она поменяет цвет
 class LikeButtonClassComponent extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.state = null;
+    }
+
     render() {
         let btnStyle = this.props.btnStyle || 'primary';
+
         // Оператор !! превращает null и undefined в false (поэкспериментируйте в отлодочной консоли браузера)
         // Если this.state = null, то выражение (this.state || {}) даст нам пустой объект
         //     null.liked — ошибка
         //     {}.liked — undefined
         let liked = !!(this.state || {}).liked;
+        liked = !!this.state?.liked;
         btnStyle = liked ? 'success' : btnStyle;
         return <button
             onClick={() => this.setState({ liked: !liked })}
