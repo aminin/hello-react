@@ -16,7 +16,7 @@ class LikeButtonClassComponent extends React.Component {
         //     null.liked — ошибка
         //     {}.liked — undefined
         let liked = !!(this.state || {}).liked;
-        liked = !!this.state?.liked;
+        // liked = !!this.state?.liked;
         btnStyle = liked ? 'success' : btnStyle;
         return <button
             onClick={() => this.setState({ liked: !liked })}

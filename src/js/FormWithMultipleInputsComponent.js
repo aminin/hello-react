@@ -2,22 +2,30 @@ import React from 'react';
 import Button from './LikeButtonClassComponent';
 import Timer from './Timer';
 
-class FormComponent extends React.Component {
-
+class FormWithMultipleInputsComponent extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {value: 'coconut'};
+        this.state = {
+            isGoing: true,
+            numberOfGuests: 2
+        };
 
-        this.handleChange = this.handleChange.bind(this);
+        this.handleInputChange = this.handleInputChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    handleChange(event) {
-        this.setState({value: event.target.value});
+    handleInputChange(event) {
+        const target = event.target;
+        const value = target.type === 'checkbox' ? target.checked : target.value;
+        const name = target.name;
+
+        this.setState({
+            [name]: value
+        });
     }
 
     handleSubmit(event) {
-        alert('ваш любимый вкус: ' + this.state.value);
+        console.log('Отправлено: ', this.state);
         event.preventDefault();
     }
 
@@ -25,13 +33,21 @@ class FormComponent extends React.Component {
         return (
             <form onSubmit={this.handleSubmit}>
                 <label>
-                    Выберите ваш любимый вкус:
-                    <select value={this.state.value} onChange={this.handleChange}>
-                        <option value="grapefruit">Грейпфрут</option>
-                        <option value="lime">Лайм</option>
-                        <option value="coconut">Кокос</option>
-                        <option value="mango">Манго</option>
-                    </select>
+                    Пойду:
+                    <input
+                        name="isGoing"
+                        type="checkbox"
+                        checked={this.state.isGoing}
+                        onChange={this.handleInputChange} />
+                </label>
+                <br />
+                <label>
+                    Количество гостей:
+                    <input
+                        name="numberOfGuests"
+                        type="number"
+                        value={this.state.numberOfGuests}
+                        onChange={this.handleInputChange} />
                 </label>
                 <input type="submit" value="Отправить" />
             </form>
@@ -39,4 +55,4 @@ class FormComponent extends React.Component {
     }
 }
 
-export default FormComponent;
+export default FormWithMultipleInputsComponent;

@@ -2,52 +2,41 @@ import React from 'react';
 import Button from './LikeButtonClassComponent';
 import Timer from './Timer';
 
-class TimerContainer extends React.Component {
+class FormComponent extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            timerIsOn: false,
-            shouldUpdateNode: true
-        };
+        this.state = {value: 'coconut'};
+
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    handleChange(event) {
+        this.setState({value: event.target.value});
+    }
+
+    handleSubmit(event) {
+        alert('ваш любимый вкус: ' + this.state.value);
+        event.preventDefault();
     }
 
     render() {
-        let timerIsOn = !!(this.state || {}).timerIsOn;
-        let shouldUpdateNode = !!(this.state || {}).shouldUpdateNode;
-
-        let buttons = null;
-        let timer = null;
-
-        // Условный рендеринг
-        if (timerIsOn) {
-            buttons = (
-                <React.Fragment>
-                    <button className={`btn btn-danger`} onClick={() => this.setState({timerIsOn: false})}
-                    >
-                        Выкл
-                    </button>
-                    &nbsp;
-                    <button className={`btn btn-${shouldUpdateNode ? 'warning' : 'primary'}`}
-                            onClick={() => this.setState({timerIsOn: true, shouldUpdateNode: !shouldUpdateNode})}
-                    >
-                        Обновлять счётчик?
-                    </button>
-                </React.Fragment>
-            );
-            timer = <Timer shouldUpdateNode={shouldUpdateNode}/>;
-        } else {
-            buttons = <button className={`btn btn-success`}
-                        onClick={() => this.setState({timerIsOn: true, shouldUpdateNode: shouldUpdateNode})}
-                >
-                    Вкл
-                </button>;
-        }
-        return <div>
-            {buttons}
-            {timer}
-        </div>;
+        return (
+            <form onSubmit={this.handleSubmit}>
+                <label>
+                    Выберите ваш любимый вкус:
+                    <select value={this.state.value} onChange={this.handleChange}>
+                        <option value="grapefruit">Грейпфрут</option>
+                        <option value="lime">Лайм</option>
+                        <option value="coconut">Кокос</option>
+                        <option value="mango">Манго</option>
+                    </select>
+                </label>
+                <input type="submit" value="Отправить" />
+            </form>
+        );
     }
 }
 
-export default TimerContainer;
+export default FormComponent;
